@@ -195,13 +195,27 @@ class Record
 
     public function getMemo($columnName)
     {
-        $data = $this->forceGetString($columnName);
-        if($data && strlen($data) == 2) {
-            $pointer = unpack('s', $data)[1];
+        $data = $this->choppedData[$columnName];
+        
+        if( trim($data) )
+        {
+          if( strlen($data) == 10 )
+          {
+            return $this->memoFile->get(trim($data));
+          }
+          if( strlen($data) == 4 )
+          {
+            $pointer = unpack('V', $data);
             return $this->memoFile->get($pointer);
-        } else {
-            return $data;
+          } 
+          if( strlen($data) == 2 )
+          {
+            $pointer = unpack('s', $data);
+            return $this->memoFile->get($pointer);
+          }
         }
+        
+        return null;
     }
 
     public function getDouble($columnName)
