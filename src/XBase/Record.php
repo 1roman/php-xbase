@@ -285,6 +285,18 @@ class Record
 
         return $ret;
     }
+    
+    public function getValues()
+    {
+        $arr = array();
+
+        foreach( $this->getColumns() as $col )
+        {
+          $arr[$col->getName()] = $this->getObject($col);
+        }
+        
+        return $arr;
+    }
 
     public function copyFrom($record)
     {
