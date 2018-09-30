@@ -17,12 +17,12 @@ class Memo
 
     protected function open()
     {
-        $fileName = str_replace(array("dbf", "DBF"), array("fpt", "FPT"), $this->tableName);
+        $fileName = preg_replace(array("/\.dbf$/", "/\.DBF$/"), array(".fpt", ".FPT"), $this->tableName);
 
         if (!file_exists($fileName)) {
             return false;
         }
-
+        
         $this->fp = fopen($fileName, 'rb');
 
         return $this->fp != false;
